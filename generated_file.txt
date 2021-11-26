@@ -1,0 +1,10 @@
+This is a message with no parameters
+This is a message with two parameters Parameter1 Parameter1
+Example line 1
+Today is Sunday
+This is a message with no parameters
+This is a message with no parameters
+Today is Saturday
+This is a message with two parameters Parameter2 Parameter1
+This is a message with no parameters
+This is a message with two parameters Parameter1 Parameter2
