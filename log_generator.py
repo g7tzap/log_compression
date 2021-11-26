@@ -41,7 +41,7 @@ def main(template_file,parameter_file,possible_parameters_file,size,weights_file
 			if(parameter_dict[line_splitted[j]] not in possible_parameters[int(line_splitted[0])]):
 				possible_parameters[int(line_splitted[0])].append(parameter_dict[line_splitted[j]])
 	
-	#initialization of the population and the probabilities
+	#Initialization of the population and the probabilities
 	population = []
 	for i in range(1,len(template_list)+1):
 		population.append(i)
