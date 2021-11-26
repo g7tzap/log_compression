@@ -12,7 +12,8 @@ def main(template_file,parameter_file,possible_parameters_file,size,weights_file
 
 	with open(template_file) as f:
 		template_list = f.read().splitlines() 
-		
+	
+	#Creating the template dictionary and the parameter numbers dictionary
 	for i in range(0,len(template_list)):
 		splitted = template_list[i].split(' ')
 		template_dict[splitted[0]] = splitted[1:]
@@ -21,22 +22,26 @@ def main(template_file,parameter_file,possible_parameters_file,size,weights_file
 	with open(parameter_file) as f:
 		parameter_list = f.read().splitlines()
 		
+	#Creating the parameter dictionary
 	for i in range(0,len(parameter_list)):
 		splitted = parameter_list[i].split(" ")
 		parameter_dict[splitted[0]] = splitted[1]
-
+	
+	#Creating the possible parameters dictionary
 	for i in range(1,len(template_list)+1):
 		possible_parameters[i] = []
 		
 	with open(possible_parameters_file) as f:
 		parameter_list = f.read().splitlines() 
-		
+	
+	#Filling the possible parameters dictionary
 	for i in range(0,len(parameter_list)):
 		line_splitted = parameter_list[i].split()
 		for j in range(1,len(line_splitted)):
 			if(parameter_dict[line_splitted[j]] not in possible_parameters[int(line_splitted[0])]):
 				possible_parameters[int(line_splitted[0])].append(parameter_dict[line_splitted[j]])
-
+	
+	#initialization of the population and the probabilities
 	population = []
 	for i in range(1,len(template_list)+1):
 		population.append(i)
@@ -47,12 +52,14 @@ def main(template_file,parameter_file,possible_parameters_file,size,weights_file
 	weights = []
 	for i in range(0,len(weights_list)):
 		weights.append(float(weights_list[i]))
-
+	
+	#Sample generation based on the probability distribution
 	samples = choices(population, weights, k=size)
 
 	output_message_list = []
 	output_template_list =[]
-
+	
+	#Generation of new messages
 	for i in range(0,len(samples)):
 		template_id = samples[i]
 		template_splitted = template_dict[str(template_id)]
@@ -72,7 +79,8 @@ def main(template_file,parameter_file,possible_parameters_file,size,weights_file
 					generated_message = template_splitted[j]
 				
 		output_message_list.append(generated_message)
-
+	
+	#Writing the messages to the output file
 	with open(output_file, 'w') as filehandle:
 		for item in output_message_list:
 			filehandle.write('%s\n' % item)
