@@ -4,7 +4,7 @@ from collections import Counter
 from random import choices
 from random import randint
 
-def main(template_file,parameter_file,possible_parameters_file,size,output_file):
+def main(template_file,parameter_file,possible_parameters_file,size,weights_file,output_file):
 	template_dict = {}
 	parameter_dict = {}
 	possible_parameters = {}
@@ -40,10 +40,13 @@ def main(template_file,parameter_file,possible_parameters_file,size,output_file)
 	population = []
 	for i in range(1,len(template_list)+1):
 		population.append(i)
+		
+	with open(weights_file) as f:
+		weights_list = f.read().splitlines()
 
 	weights = []
-	for i in range(1,len(template_list)+1):
-		weights.append(float(0.05))
+	for i in range(0,len(weights_list)):
+		weights.append(float(weights_list[i]))
 
 	samples = choices(population, weights, k=size)
 
@@ -87,11 +90,12 @@ def commandline_input_handler():
 	parser.add_argument("-p", "--parameter_dictionary", 	help="The file that contains the parameters", required=True, default=None)
 	parser.add_argument("-pp", "--possible_parameter", 	help="The file that contains the possible parameters for each template", required=True, default=None)
 	parser.add_argument("-n", "--number", 	help="The number of the messages to be generated", required=True, default=None)
-	parser.add_argument("-o", "--output", help="Output file path", required=True, default=None)
+	parser.add_argument("-w", "--probability_weights", 	help="The probability of each template", required=True, default=None)
+	parser.add_argument("-o", "--output", help="Output file", required=True, default=None)
 
 	args = vars(parser.parse_args())
-
-	main(args['template_dictionary'],args['parameter_dictionary'],args['possible_parameter'],int(args['number']),args['output'])
+	
+	main(args['template_dictionary'],args['parameter_dictionary'],args['possible_parameter'],int(args['number']),args['probability_weights'],args['output'])
   
 if __name__ == '__main__':
    if len(sys.argv) > 1:
